@@ -1,8 +1,5 @@
-export interface User {
-  id: string;
-  name: string;
-  avatar: string;
-}
+import { type User } from "../components/user/user.model";
+
 
 export const DUMMY_USERS: User[] = [
   {
