@@ -1,13 +1,5 @@
-/**
- * Esse componente foi criando usando o conceito mais moderno de ->SIGNAL<-,
- * uma forma mais otimizada do Angular detectar as alterações e atualizar o DOM.
- */
-
-import { Component, computed, signal } from '@angular/core';
-
-import { DUMMY_USERS } from '../../constants/dummy-users';
-
-const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
+import { Component, input, output } from '@angular/core';
+import { User } from '../../constants/dummy-users';
 
 @Component({
   selector: 'app-user',
@@ -17,16 +9,20 @@ const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
   styleUrl: './user.component.scss',
 })
 export class UserComponent {
-  selectdUser = signal(DUMMY_USERS[randomIndex]);
-  imageUserPath = computed(() => 'assets/users/' + this.selectdUser().avatar);
+  user = input.required<User>();
+  select = output<string>();
+  disabledButton = input(false, {
+    transform: (value: string | boolean): boolean =>
+      typeof value === 'string'
+        ? value === '' || value === 'true'
+        : value,
+  });
 
-  // get imageUserPath() {
-  //   return 'assets/users/' + this.selectdUser().avatar;
-  // }
+  get imageUserPath() {
+    return `assets/users/${this.user().avatar}`;
+  }
 
   onSelectUser() {
-    const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
-    this.selectdUser.set(DUMMY_USERS[randomIndex]);
-    // this.selectdUser = DUMMY_USERS[randomIndex];
+    this.select.emit(this.user().id);
   }
 }
