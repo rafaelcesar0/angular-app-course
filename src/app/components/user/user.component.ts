@@ -13,9 +13,7 @@ export class UserComponent {
   select = output<string>();
   disabledButton = input(false, {
     transform: (value: string | boolean): boolean =>
-      typeof value === 'string'
-        ? value === '' || value === 'true'
-        : value,
+      typeof value === 'string' ? value === '' || value === 'true' : value,
   });
 
   get imageUserPath() {
