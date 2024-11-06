@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from './components/header/header.component';
@@ -6,7 +6,7 @@ import { UserComponent } from './components/user/user.component';
 
 import { DUMMY_USERS } from './constants/dummy-users';
 import { TasksComponent } from './components/tasks/tasks.component';
-import { User } from './components/user/user.model';
+import { type User } from './components/user/user.model';
 
 
 @Component({
@@ -17,15 +17,15 @@ import { User } from './components/user/user.model';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  users = DUMMY_USERS;
-  selectedIdUser?: string;
+  readonly users = DUMMY_USERS;
+  selectedIdUser = signal('');
 
   get selectedUser(): User | undefined {
-    return this.users.find((user) => user.id === this.selectedIdUser);
+    return this.users.find((user) => user.id === this.selectedIdUser());
   }
 
   onSelectUser(id: string) {
-    this.selectedIdUser = id;
+    this.selectedIdUser.set(id);
     // console.log(`Selecte user with id: ${id}`);
   }
 }

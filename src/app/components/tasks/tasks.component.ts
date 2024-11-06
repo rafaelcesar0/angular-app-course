@@ -1,8 +1,8 @@
 import { Component, input, signal } from '@angular/core';
-import { TaskComponent } from "./task/task.component";
+import { TaskComponent } from './task/task.component';
+import { NewTaskComponent } from './new-task/new-task.component';
 import { type User } from '../user/user.model';
-import { type Task } from './task/task.model';
-import { NewTaskComponent } from "./new-task/new-task.component";
+import { type Task, type NewTaskData } from './task/task.model';
 
 @Component({
   selector: 'app-tasks',
@@ -14,7 +14,7 @@ import { NewTaskComponent } from "./new-task/new-task.component";
 export class TasksComponent {
   user = input.required<User>();
   selectedIdUser = input<string>();
-  isAddingTask: boolean = false;
+  isAddingTask = signal(false);
   tasks = signal<Task[]>([
     {
       id: 't1',
@@ -59,9 +59,24 @@ export class TasksComponent {
   }
 
   onStartAddTask() {
-    this.isAddingTask = true;
+    this.isAddingTask.set(true);
   }
   onCanceltAddTask() {
-    this.isAddingTask = false;
+    this.isAddingTask.set(false);
+  }
+
+  onAddTask(taskData: NewTaskData) {
+    this.tasks.update((tasks) => {
+      tasks.push({
+        id: 'd',
+        idUser: this.user().id,
+        title: taskData.title,
+        summary: taskData.summary,
+        dueDate: taskData.date,
+      });
+
+      return tasks;
+    });
+    this.isAddingTask.set(false);
   }
 }
