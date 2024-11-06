@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { TaskComponent } from "./task/task.component";
 import { type User } from '../user/user.model';
 import { type Task } from './task/task.model';
@@ -15,7 +15,7 @@ export class TasksComponent {
   user = input.required<User>();
   selectedIdUser = input<string>();
   isAddingTask: boolean = false;
-  tasks: Task[] = [
+  tasks = signal<Task[]>([
     {
       id: 't1',
       idUser: 'u1',
@@ -48,14 +48,14 @@ export class TasksComponent {
         'Learn all the basic and advanced feature of Angular & how to apply them.',
       dueDate: '2024-10-21',
     },
-  ];
+  ]);
 
   get selectUserTasks() {
-    return this.tasks.filter((task) => task.idUser === this.selectedIdUser());
+    return this.tasks().filter((task) => task.idUser === this.selectedIdUser());
   }
 
   onCompleteTask(id: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+    this.tasks.set(this.tasks().filter((task) => task.id !== id));
   }
 
   onStartAddTask() {
