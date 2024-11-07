@@ -1,8 +1,9 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { type User } from '../user/user.model';
-import { type Task, type NewTaskData } from './task/task.model';
+import { type NewTaskData } from './task/task.model';
+import { TasksService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -12,71 +13,22 @@ import { type Task, type NewTaskData } from './task/task.model';
   styleUrl: './tasks.component.scss',
 })
 export class TasksComponent {
+  private _tasksService = inject(TasksService);
   user = input.required<User>();
-  selectedUserId = input<string>();
+  selectedUserId = input.required<string>();
   isAddingTask = signal(false);
-  tasks = signal<Task[]>([
-    {
-      id: 't1',
-      userId: 'u1',
-      title: 'Master Angular1',
-      summary:
-        'Learn all the basic and advanced feature of Angular & how to apply them.',
-      dueDate: '2024-10-21',
-    },
-    {
-      id: 't2',
-      userId: 'u1',
-      title: 'Master Angular1.1',
-      summary:
-        'Learn all the basic and advanced feature of Angular & how to apply them.',
-      dueDate: '2024-10-21',
-    },
-    {
-      id: 't3',
-      userId: 'u2',
-      title: 'Master Angular2',
-      summary:
-        'Learn all the basic and advanced feature of Angular & how to apply them.',
-      dueDate: '2024-10-21',
-    },
-    {
-      id: 't4',
-      userId: 'u3',
-      title: 'Master Angular3',
-      summary:
-        'Learn all the basic and advanced feature of Angular & how to apply them.',
-      dueDate: '2024-10-21',
-    },
-  ]);
+
+  // constructor(private _tasksService: TasksService) {}
 
   get selectUserTasks() {
-    return this.tasks().filter((task) => task.userId === this.selectedUserId());
-  }
-
-  onCompleteTask(id: string) {
-    this.tasks.set(this.tasks().filter((task) => task.id !== id));
+    return this._tasksService.getUserTasks(this.user().id);
   }
 
   onStartAddTask() {
     this.isAddingTask.set(true);
   }
-  onCanceltAddTask() {
-    this.isAddingTask.set(false);
-  }
 
-  onAddTask(taskData: NewTaskData) {
-    this.tasks.update((tasks) => {
-      tasks.push({
-        id: 'd',
-        userId: this.user().id,
-        title: taskData.title,
-        summary: taskData.summary,
-        dueDate: taskData.date,
-      });
-
-      return tasks;
-    });
+  onCloseAddTask() {
     this.isAddingTask.set(false);
   }
 }

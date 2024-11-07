@@ -1,5 +1,5 @@
 @if (isAddingTask()) {
-  <app-new-task (cancel)="onCanceltAddTask()" (add)="onAddTask($event)"/>
+  <app-new-task (close)="onCloseAddTask()" [userId]="user().id"/>
 }
 
 <section id="tasks">
@@ -11,10 +11,10 @@
   </header>
 
   <ul>
-    @for (task of selectUserTasks; track task.id) {
-      <li>
-        <app-task [task]="task" (complete)="onCompleteTask($event)"/>
-      </li>
-    }
+      @for (task of selectUserTasks; track task.id) {
+        <li>
+          <app-task [task]="task" />
+        </li>
+      }
   </ul>
 </section>
