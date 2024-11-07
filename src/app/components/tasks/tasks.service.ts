@@ -6,17 +6,9 @@ import { JsonPipe } from '@angular/common';
 export class TasksService {
   private _tasks = signal<Task[]>([
     {
-      id: 'i1',
-      userId: 'u1',
-      title: 'Master Angular1',
-      summary:
-        'Learn all the basic and advanced feature of Angular & how to apply them.',
-      dueDate: '2024-10-21',
-    },
-    {
-      id: 'i2',
-      userId: 'u1',
-      title: 'Master Angular1.1',
+      id: 'i4',
+      userId: 'u3',
+      title: 'Master Angular3',
       summary:
         'Learn all the basic and advanced feature of Angular & how to apply them.',
       dueDate: '2024-10-21',
@@ -30,22 +22,30 @@ export class TasksService {
       dueDate: '2024-10-21',
     },
     {
-      id: 'i4',
-      userId: 'u3',
-      title: 'Master Angular3',
+      id: 'i2',
+      userId: 'u1',
+      title: 'Master Angular1.1',
+      summary:
+        'Learn all the basic and advanced feature of Angular & how to apply them.',
+      dueDate: '2024-10-21',
+    },
+    {
+      id: 'i1',
+      userId: 'u1',
+      title: 'Master Angular1',
       summary:
         'Learn all the basic and advanced feature of Angular & how to apply them.',
       dueDate: '2024-10-21',
     },
   ]);
 
-  // constructor() {
-  //   const tasks = localStorage.getItem('tasks');
+  constructor() {
+    const tasks = localStorage.getItem('tasks');
 
-  //   if (tasks) {
-  //     this._tasks.set(JSON.parse(tasks));
-  //   }
-  // }
+    if (tasks) {
+      this._tasks.set(JSON.parse(tasks));
+    }
+  }
 
   getUserTasks(userId: string): Task[] | undefined {
     return this._tasks().filter((task) => task.userId === userId);
@@ -63,7 +63,7 @@ export class TasksService {
 
       return tasks;
     });
-    // this.saveTasks();
+    this.saveTasks();
   }
 
   removeTaskById(id: string): boolean {
@@ -74,13 +74,13 @@ export class TasksService {
         tasks.splice(indexId, 1);
         return tasks;
       });
-      // this.saveTasks();
+      this.saveTasks();
       return true
     }
     return false
   }
 
-  // private saveTasks() {
-  //   localStorage.setItem('tasks', JSON.stringify(this._tasks));
-  // }
+  private saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this._tasks()));
+  }
 }
