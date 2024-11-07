@@ -18,14 +18,14 @@ import { type User } from './components/user/user.model';
 })
 export class AppComponent {
   readonly users = DUMMY_USERS;
-  selectedIdUser = signal('');
+  selectedUserId = signal('');
 
   get selectedUser(): User | undefined {
-    return this.users.find((user) => user.id === this.selectedIdUser());
+    return this.users.find((user) => user.id === this.selectedUserId());
   }
 
   onSelectUser(id: string) {
-    this.selectedIdUser.set(id);
+    this.selectedUserId.set(id);
     // console.log(`Selecte user with id: ${id}`);
   }
 }

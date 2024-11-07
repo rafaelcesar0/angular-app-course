@@ -13,12 +13,12 @@ import { type Task, type NewTaskData } from './task/task.model';
 })
 export class TasksComponent {
   user = input.required<User>();
-  selectedIdUser = input<string>();
+  selectedUserId = input<string>();
   isAddingTask = signal(false);
   tasks = signal<Task[]>([
     {
       id: 't1',
-      idUser: 'u1',
+      userId: 'u1',
       title: 'Master Angular1',
       summary:
         'Learn all the basic and advanced feature of Angular & how to apply them.',
@@ -26,7 +26,7 @@ export class TasksComponent {
     },
     {
       id: 't2',
-      idUser: 'u1',
+      userId: 'u1',
       title: 'Master Angular1.1',
       summary:
         'Learn all the basic and advanced feature of Angular & how to apply them.',
@@ -34,7 +34,7 @@ export class TasksComponent {
     },
     {
       id: 't3',
-      idUser: 'u2',
+      userId: 'u2',
       title: 'Master Angular2',
       summary:
         'Learn all the basic and advanced feature of Angular & how to apply them.',
@@ -42,7 +42,7 @@ export class TasksComponent {
     },
     {
       id: 't4',
-      idUser: 'u3',
+      userId: 'u3',
       title: 'Master Angular3',
       summary:
         'Learn all the basic and advanced feature of Angular & how to apply them.',
@@ -51,7 +51,7 @@ export class TasksComponent {
   ]);
 
   get selectUserTasks() {
-    return this.tasks().filter((task) => task.idUser === this.selectedIdUser());
+    return this.tasks().filter((task) => task.userId === this.selectedUserId());
   }
 
   onCompleteTask(id: string) {
@@ -69,7 +69,7 @@ export class TasksComponent {
     this.tasks.update((tasks) => {
       tasks.push({
         id: 'd',
-        idUser: this.user().id,
+        userId: this.user().id,
         title: taskData.title,
         summary: taskData.summary,
         dueDate: taskData.date,

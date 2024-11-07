@@ -1,6 +1,6 @@
 export type Task = {
   id: string;
-  idUser: string;
+  userId: string;
   title: string;
   summary: string;
   dueDate: string;
