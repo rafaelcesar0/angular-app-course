@@ -1,6 +1,6 @@
 <app-card>
-  <button (click)="onSelectUser()" [disabled]="disabledButton()">
-    <img [src]="imageUserPath" [alt]="user().name" />
+  <button (click)="select.emit(user().id)" [disabled]="disabledButton()">
+    <img [src]="imageUserPath()" [alt]="user().name" />
     <span>{{ user().name }}</span>
   </button>
 </app-card>

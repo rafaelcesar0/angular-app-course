@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { booleanAttribute, Component, computed, input, output } from '@angular/core';
 import { type User } from './user.model';
 import { CardComponent } from "../../shared/card/card.component";
 
@@ -12,14 +12,8 @@ import { CardComponent } from "../../shared/card/card.component";
 export class UserComponent {
   user = input.required<User>();
   select = output<string>();
-  disabledButton = input(false, {
-    transform: (value: string | boolean): boolean =>
-      typeof value === 'string' ? value === '' || value === 'true' : value,
-  });
-
-  get imageUserPath() {
-    return `assets/users/${this.user().avatar}`;
-  }
+  imageUserPath = computed(() => `assets/users/${this.user().avatar}`)
+  disabledButton = input(false, { transform: booleanAttribute });
 
   onSelectUser() {
     this.select.emit(this.user().id);
