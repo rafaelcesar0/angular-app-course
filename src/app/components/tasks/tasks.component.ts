@@ -16,6 +16,9 @@ export class TasksComponent {
   user = input.required<User>();
   selectedUserId = input.required<string>();
   isAddingTask = signal(false);
-  selectUserTasks = computed(() => this._tasksService.getUserTasks(this.user().id))
+
+  get selectUserTasks() {
+    return this._tasksService.getUserTasks(this.user().id);
+  }
 
 }
