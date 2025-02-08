@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from './components/header/header.component';
@@ -19,13 +19,5 @@ import { type User } from './components/user/user.model';
 export class AppComponent {
   readonly users = DUMMY_USERS;
   selectedUserId = signal('');
-
-  get selectedUser(): User | undefined {
-    return this.users.find((user) => user.id === this.selectedUserId());
-  }
-
-  onSelectUser(id: string) {
-    this.selectedUserId.set(id);
-    // console.log(`Selecte user with id: ${id}`);
-  }
+  selectedUser = computed<User | undefined>(() => this.users.find((user) => user.id === this.selectedUserId()))
 }
